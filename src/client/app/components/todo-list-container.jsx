@@ -5,6 +5,7 @@ class TodoListContainer extends React.Component {
 
   constructor(props) {
     super(props);
+    this.saveTodo = this.saveTodo.bind(this);
      this.state = {
        tasks: localStorage['tasks'] || [
          {
@@ -22,10 +23,26 @@ class TodoListContainer extends React.Component {
      };
   };
 
+  saveTodo(newText) {
+    this.setState({
+      tasks: this.state.tasks.concat({
+        id: Math.random() * 234234324,
+        task: this.refs.newText.value,
+        due: new Date(),
+        complete: false
+      })
+    });
+    this.refs.newText.value = '';
+
+  }
+
+
   render () {
     let classes = 'table-striped table table-bordered';
     return (
-      <div>
+     <div>
+      <input type="text" ref="newText"/>
+      <button onClick={this.saveTodo}>Add...</button>
       <table className={classes}>
         <thead>
         <tr>

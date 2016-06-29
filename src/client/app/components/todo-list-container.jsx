@@ -1,48 +1,41 @@
 import React from 'react';
+let PropTypes = React.PropTypes;
+import { connect } from 'react-redux';
+console.log('connect is', connect);
+
 import TodoItem from './todo-item';
+import { addTask } from '../actions/task-actions';
 
 class TodoListContainer extends React.Component {
-
   constructor(props) {
     super(props);
-    this.saveTodo = this.saveTodo.bind(this);
-     this.state = {
-       tasks: localStorage['tasks'] || [
-         {
-           id: 'abc',
-           task: 'Do the dishes',
-           due: new Date(),
-           complete: false
-         },
-         {
-           id: 'def',
-           task: 'Do the wash',
-           due: new Date(),
-           complete: false
-         }]
-     };
+    console.log('addtask is ', addTask);
   };
 
-  saveTodo(newText) {
-    this.setState({
-      tasks: this.state.tasks.concat({
-        id: Math.random() * 234234324,
-        task: this.refs.newText.value,
-        due: new Date(),
-        complete: false
-      })
-    });
-    this.refs.newText.value = '';
-
+  componentWillUnmount() {
+    this.unsubscribe();
   }
 
+  getChildContext() {
+    return {store : this.store,
+            actions: this.props.actions};
+  }
+
+  saveTodo() {
+    this.props.actions.addTask({task: 'BOOGER', complete: false, due: new Date()});
+    //this.refs.newText.value = '';
+  }
 
   render () {
     let classes = 'table-striped table table-bordered';
+    let tasks = [];
+    this.props.tasks.forEach((task) => {
+      tasks.push(<TodoItem key={task.id} task={task} actions={this.props.actions} />);
+    });
     return (
      <div>
       <input type="text" ref="newText"/>
-      <button onClick={this.saveTodo}>Add...</button>
+      <button onClick={this.saveTodo.bind(this)}>Add...</button>
       <table className={classes}>
         <thead>
         <tr>
@@ -50,16 +43,20 @@ class TodoListContainer extends React.Component {
           <th>Task</th>
           <th>Due</th>
           <th>Complete?</th>
+          <th>Actions</th>
         </tr>
         </thead>
         <tbody>
-      {this.state.tasks.map(function(task) {
-        return <TodoItem key={task.id} itemId={task.id} itemTask={task.task} itemDue={task.due} itemComplete={task.complete} />
-      })}
+        { tasks }
         </tbody>
         </table>
-        </div>);
-
+      </div>);
   }
 }
+
+TodoListContainer.childContextTypes = {
+  store: PropTypes.object,
+  actions: PropTypes.object
+};
+
 export default TodoListContainer;

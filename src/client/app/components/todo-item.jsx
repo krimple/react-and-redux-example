@@ -1,15 +1,29 @@
 import React from 'react';
-import * as PropTypes from "react/lib/ReactPropTypes";
+let { Component, PropTypes } = React;
+import { removeTask } from '../actions/task-actions';
 
 class TodoItem extends React.Component {
 
+  remove(event) {
+    // call action from parent
+    this.props.actions.removeTask(this.props.task);
+  }
+
   render() {
+    let task = this.props.task;
     return (<tr>
-      <td>{this.props.itemId}</td>
-      <td>{this.props.itemTask}</td>
-      <td>{this.props.itemDue.toString()}</td>
-      <td>{this.props.itemComplete.toString()}</td>
+      <td>{task.id}</td>
+      <td>{task.task}</td>
+      <td>{task.due.toString()}</td>
+      <td>{task.complete.toString()}</td>
+      <td><button onClick={this.remove.bind(this)}>Remove</button></td>
     </tr>);
   };
 }
+
+TodoItem.propTypes = {
+  actions: PropTypes.object,
+  task: PropTypes.object
+};
+
 export default TodoItem;

@@ -9,7 +9,7 @@ const PATHS = {
 
 module.exports = {
   entry: [
-        path.join(__dirname, 'src/client/app/index.jsx')
+        path.join(__dirname, 'src/client/app/bootstrap.jsx')
   ],
 
   devtool: process.env.WEBPACK_DEVTOOL || 'source-map',
@@ -21,7 +21,7 @@ module.exports = {
   },
   module: {
     loaders: [{
-      test: /\.jsx?$/,
+      test: [/\.jsx?$/, /\.js$/],
       loader: 'babel'
     }]
   },

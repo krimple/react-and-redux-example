@@ -9,6 +9,8 @@ const PATHS = {
 
 module.exports = {
   entry: [
+        'webpack-dev-server/client?http://0.0.0.0:8080',
+        'webpack/hot/only-dev-server',
         path.join(__dirname, 'src/client/app/bootstrap.jsx')
   ],
 
@@ -19,11 +21,13 @@ module.exports = {
     filename: 'bundle.js'
 
   },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+  ],
   module: {
-    loaders: [{
-      test: [/\.jsx?$/, /\.js$/],
-      loader: 'babel'
-    }]
+    loaders: [
+      { test: [/\.jsx?$/, /\.js$/], loaders: ['react-hot', 'babel'], include: path.join(__dirname, 'src/client/app')}
+    ]
   },
   resolve: {
     extensions: ['', '.js', '.jsx']

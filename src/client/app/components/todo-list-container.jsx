@@ -12,10 +12,6 @@ class TodoListContainer extends React.Component {
     console.log('addtask is ', addTask);
   };
 
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
   getChildContext() {
     return {store : this.store,
             actions: this.props.actions};

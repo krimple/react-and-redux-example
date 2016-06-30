@@ -9,7 +9,7 @@ const taskReducer = function (state, action) {
   // as priorState
   let priorState = state || { tasks: [] };
   if (priorState.tasks === undefined) {
-   priorState.tasks = [];
+   priorState.tasks = [];  
   }
 
   switch(action.type) {

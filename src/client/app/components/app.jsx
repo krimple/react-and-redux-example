@@ -10,6 +10,7 @@ class App extends Component {
     const { tasks, actions } = this.props;
     return (
       <div>
+        <h1>Todos are coming for you</h1>
         <TodoListContainer tasks={tasks} actions={actions} />
       </div>
     );

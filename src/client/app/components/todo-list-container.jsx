@@ -12,7 +12,7 @@ class TodoListContainer extends React.Component {
     console.log('addtask is ', addTask);
   };
 
-  getChildContext() {
+   getChildContext() {
     return {store : this.store,
             actions: this.props.actions};
   }

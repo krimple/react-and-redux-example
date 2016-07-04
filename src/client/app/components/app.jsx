@@ -1,56 +1,58 @@
 // framework-specific
 import React, { Component, PropTypes } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { Router, Route, useRouterHistory, IndexRoute, Link} from 'react-router';
+import { Router, Route, IndexRoute, Link, withRouter, browserHistory } from 'react-router';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
-import { createHashHistory } from 'history';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { Provider } from 'react-redux';
+import * as TaskActions from '../actions/task-actions';
 
 // app-specific
 import TodoListContainer from './todo-list-container';
-import * as TaskActions from '../actions/task-actions';
 
 // from Hacking with React
 // TODO - research this and options used / available
-const appHistory = useRouterHistory(createHashHistory)();
 // <TodoListContainer tasks={tasks} actions={actions} />
 class App extends Component {
   render() {
-    const { tasks, actions } = this.props;
+    const { history, store } = this.props;
+    const routes = <Route path="/">
+        <IndexRoute component={TodoListContainer} />
+      </Route>;
     return (
       <div>
-        <h1>Todos are coming for you</h1>
-        <Link to="/">Home</Link> | <Link to="/todo">Add Todo...</Link>
-        <Router history={appHistory} onUpdate={() => window.scrollTo(0, 0) }>
-          <Route path="/">
-             <IndexRoute component={ TodoListContainer } />
-          </Route>
-        </Router>
+        <Provider store={store}>
+          <div>
+            <h1>Todos are coming for you</h1>
+            <Link to={`/`}>Home</Link> | <Link to="/todo">Add Todo...</Link>
+              <Router history={history}>
+               { routes }
+            </Router>
+         </div>
+       </Provider>
       </div>
     );
   }
 }
 
-App.propTypes = {
-  store: PropTypes.object.isRequired,
-  tasks: PropTypes.array.isRequired,
-  actions: PropTypes.object.isRequired
-};
-
-function mapStateToProps(state) {
-  return {
-    tasks : state.tasks
+function mapStateToProps(state, ownProps) {
+  console.log('app: map state to props', state, ownProps)
+  let map = {
+    store: ownProps.store,
+    tasks: state.tasks
   };
+  console.log('app: mapStateToProps mapping to ', map);
+  return map;
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
+  console.log('app: mapDispatchToProps being called with ', dispatch);
+  let map = {
     actions: bindActionCreators(TaskActions, dispatch)
   };
+  console.log('app: mapDispatchToProps returning ', map);
+  return map;
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
-
+export default withRouter(App);

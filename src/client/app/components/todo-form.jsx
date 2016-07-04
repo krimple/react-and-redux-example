@@ -4,6 +4,11 @@ import { removeTask } from '../actions/task-actions';
 
 class TodoForm extends React.Component {
 
+  static propTypes = {
+    actions: PropTypes.object,
+    task: PropTypes.object
+  };
+
   remove(event) {
     // call action from parent
     this.props.actions.removeTask(this.props.task);
@@ -20,10 +25,5 @@ class TodoForm extends React.Component {
     </tr>);
   };
 }
-
-TodoItem.propTypes = {
-  actions: PropTypes.object,
-  task: PropTypes.object
-};
 
 export default TodoForm;

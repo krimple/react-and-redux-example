@@ -12,7 +12,8 @@ Odd things
 For the overall project
 * I had to install several packages - exists-sync, object-assign, minimatch, walk-sync and through. NO IDEA why, except 
   when I tried to run after configuring react-redux I could not run webpack-dev-server.
-  
+* Added ES 7 back into the mix via following http://technologyadvice.github.io/es7-decorators-babel6/  
+
 For hot reload
 * Had to install react-hot-loader, weback-dev-server, and configure webpack to use the hot loader:
 ```javascript

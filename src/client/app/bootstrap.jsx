@@ -1,16 +1,15 @@
 // framework-specific
 import React from 'react';
 import { render } from 'react-dom';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
 
+import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 // app-specific
 import App from './components/app';
-import taskReducer from './store/task-store';
+import IntegrationUtils  from './integration/store-integration';
+
+console.log('about to bootstrap...');
+let store = IntegrationUtils.initializeStore();
+let history = IntegrationUtils.createHistory(store);
 
 // next render a provider-wrapped container
-render(
-    <Provider store={createStore(taskReducer, { tasks: []})}>
-      <App />
-    </Provider>,
-    document.getElementById('app'));
+render(<App store={store} history={history}/>, document.getElementById('app'));

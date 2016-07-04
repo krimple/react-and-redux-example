@@ -1,23 +1,21 @@
 import React from 'react';
 let PropTypes = React.PropTypes;
 import { connect } from 'react-redux';
-console.log('connect is', connect);
+import { withRouter } from 'react-router';
+import { bindActionCreators } from 'redux';
 
 import TodoItem from './todo-item';
-import { addTask } from '../actions/task-actions';
+import * as TaskActions from '../actions/task-actions';
 
 class TodoListContainer extends React.Component {
   constructor(props) {
     super(props);
-    console.log('addtask is ', addTask);
+    console.log('todolistcontainer props are', props);
+    //console.log('addtask is ', TaskActions.addTask);
   };
 
-  getChildContext() {
-    return {store : this.store,
-            actions: this.props.actions};
-  }
-
   saveTodo() {
+    console.log('calling saveTodo with this of', this);
     this.props.actions.addTask({task: 'BOOGER', complete: false, due: new Date()});
     //this.refs.newText.value = '';
   }
@@ -25,34 +23,64 @@ class TodoListContainer extends React.Component {
   render () {
     let classes = 'table-striped table table-bordered';
     let tasks = [];
-    this.props.tasks.forEach((task) => {
-      tasks.push(<TodoItem key={task.id} task={task} actions={this.props.actions} />);
-    });
+    if (this.props.tasks && this.props.tasks.length > 0) {
+      this.props.tasks.forEach((task) => {
+        tasks.push(<TodoItem key={task.id} task={task} actions={this.props.actions}/>);
+      });
+    }
     return (
      <div>
       <input type="text" ref="newText"/>
       <button onClick={this.saveTodo.bind(this)}>Add...</button>
-      <table className={classes}>
-        <thead>
-        <tr>
-          <th>ID</th>
-          <th>Task</th>
-          <th>Due</th>
-          <th>Complete?</th>
-          <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        { tasks }
-        </tbody>
-        </table>
-      </div>);
+       <table className={classes}>
+         <thead>
+         <tr>
+           <th>ID</th>
+           <th>Task</th>
+           <th>Due</th>
+           <th>Complete?</th>
+           <th>Actions</th>
+         </tr>
+         </thead>
+         <tbody>
+         { tasks }
+         </tbody>
+       </table>
+   </div>);
   }
 }
-
-TodoListContainer.childContextTypes = {
-  store: PropTypes.object,
-  actions: PropTypes.object
+TodoListContainer.proptypes = {
+      store: PropTypes.object,
+      tasks: PropTypes.object,
+      actions: PropTypes.object
 };
 
-export default TodoListContainer;
+/*(export default connect((state, ownProps) => {
+  console.log('mapping state', state);
+  return {
+    store: ownProps.store
+  };
+})(TodoListContainer);*/
+function mapStateToProps(state, ownProps) {
+  console.log('todolistcontainer: map state to props', state, ownProps)
+  let map = {
+    store: ownProps.store,
+    tasks: state.tasks
+  };
+  console.log('todolistcontainer: mapStateToProps mapping to ', map);
+  return map;
+}
+
+function mapDispatchToProps(dispatch) {
+  console.log('todolistcontainer: mapDispatchToProps being called with ', dispatch);
+  let map = {
+    actions: bindActionCreators(TaskActions, dispatch)
+  };
+  console.log('todolistcontainer: mapDispatchToProps returning ', map);
+  return map;
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoListContainer);

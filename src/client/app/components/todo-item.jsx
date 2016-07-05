@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import React from 'react';
@@ -24,7 +25,7 @@ class TodoItem extends React.Component {
     let task = this.props.task;
     let actions = this.props.actions;
     return (<tr>
-      <td>{task.id}</td>
+      <td><Link to={`/todo/` + task.id}>Edit...</Link></td>
       <td>{task.task}</td>
       <td>{task.due.toString()}</td>
       <td>{task.complete.toString()}</td>

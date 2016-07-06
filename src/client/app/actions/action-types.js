@@ -1,3 +1,6 @@
 export const ADD_TASK = 'ADD_TASK';
 export const REMOVE_TASK = 'REMOVE_TASK';
 export const UPDATE_TASK = 'UPDATE_TASK';
+export const FILTER_ALL = 'FILTER_ALL';
+export const FILTER_COMPLETED = 'FILTER_COMPLETED';
+export const FILTER_INCOMPLETE = 'FILTER_INCOMPLETE';

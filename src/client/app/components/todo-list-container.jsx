@@ -30,8 +30,6 @@ class TodoListContainer extends React.Component {
     }
     return (
      <div>
-      <input type="text" ref="newText"/>
-      <button onClick={this.saveTodo.bind(this)}>Add...</button>
        <table className={classes}>
          <thead>
          <tr>
@@ -50,17 +48,11 @@ class TodoListContainer extends React.Component {
   }
 }
 TodoListContainer.proptypes = {
-      store: PropTypes.object,
-      tasks: PropTypes.object,
-      actions: PropTypes.object
+  store: PropTypes.object,
+  tasks: PropTypes.object,
+  actions: PropTypes.object
 };
 
-/*(export default connect((state, ownProps) => {
-  console.log('mapping state', state);
-  return {
-    store: ownProps.store
-  };
-})(TodoListContainer);*/
 function mapStateToProps(state, ownProps) {
   console.log('todolistcontainer: map state to props', state, ownProps)
   let map = {

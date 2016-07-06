@@ -4,6 +4,9 @@ import {ADD_TASK, REMOVE_TASK, UPDATE_TASK} from './../actions/action-types';
 
 // important - only use Object.assign with an empty
 const taskReducer = function (state = [], action) {
+  // TODO this is a dupe var if used in REMOVE and UPDATE
+  // is there a better way?
+  let indexOfCandidate;
 
   switch (action.type) {
     case ADD_TASK:
@@ -21,30 +24,35 @@ const taskReducer = function (state = [], action) {
     // task's ID in action
     case REMOVE_TASK:
       console.log('calling REMOVE_TASK with', action);
-      let indexOfCandidate = state.indexOf(action.task);
+      indexOfCandidate = state.find((task) => {
+        return task.id === action.task.id
+      });
 
-      if (indexOfCandidate > -1) {
+      if (indexOfCandidate === -1) {
+        return state;
+      } else {
         let newState = [].concat(
           state.slice(0, indexOfCandidate),
           state.slice(indexOfCandidate + 1));
         return newState;
-      } else {
-        return state;
-      }
-    case UPDATE_TASK:
-      let foundIdx = state.indexOf((task) => {
-        return task.id === action.id
-      });
-      if (!foundIdx) {
-        return state;
       }
 
-      // replace just the one task
-      return Object.assign({}, state, [
-        ...state.tasks.slice(0, foundIdx - 1),
-        Object.assign({}, action.task),
-        ...state.tasks.slice(foundIdx + 1)
-      ]);
+    case UPDATE_TASK:
+      indexOfCandidate = state.find((task) => {
+        return task.id === action.task.id
+      });
+
+      if (indexOfCandidate === -1) {
+        return state;
+      } else {
+        // replace just the one task
+        let newState = [].concat(
+          state.slice(0, indexOfCandidate),
+          action.task,
+          state.slice(indexOfCandidate + 1));
+        return newState;
+      }
+
     default:
       return state;
   }

@@ -1,13 +1,15 @@
 import { createStore, combineReducers } from 'redux';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 import { hashHistory } from 'react-router';
-import  taskReducer  from '../store/task-store';
+import  taskReducer  from '../store/task-reducer';
+import  filterReducer  from '../store/filter-reducer';
 
 const IntegrationUtils = {
   initializeStore: function () {
     let store = createStore(
       combineReducers({
         tasks: taskReducer,
+        filter: filterReducer,
         routing: routerReducer
       }), {tasks: []});
     console.log('store created.', store);

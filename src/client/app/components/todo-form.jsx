@@ -66,7 +66,7 @@ class TodoForm extends React.Component {
       <form>
         <label>Task</label><br/><input type="text" onChange={this.handleTaskChange} value={this.state.task.task}/><br/>
         <label>Due Date</label><br/><input type="date" onChange={this.handleDueDateChange} value={this.state.task.due}/><br/>
-        <label>Complete?</label><br/><input type="checkbox" onChange={this.handleCompleteChange} value={this.state.task.complete}/><br/>
+        <label>Complete?</label><br/><input type="checkbox" onChange={this.handleCompleteChange} checked={this.state.task.complete}/><br/>
         <button onClick={this.submit.bind(this)}>Submit</button>
       </form>
     );

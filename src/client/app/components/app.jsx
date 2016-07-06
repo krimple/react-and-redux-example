@@ -43,15 +43,15 @@ class App extends Component {
 
 const Home = () => (
   <div>
-    <h1>Todos are coming for you</h1>
     <TodoListContainer  />
   </div>
 );
 
-
 const Nav = () => (
   <div>
+    <h1>Todos are coming for you</h1>
     <Link to={`/`}>Home</Link>
+    |
     <Link to={`/todo`}>Add Todo...</Link>
   </div>
 );

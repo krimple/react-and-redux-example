@@ -51,7 +51,9 @@ const Nav = () => (
   <div>
     <h1>Todos are coming for you</h1>
     <Link to={`/`}>Home</Link>
+    &nbsp;
     |
+    &nbsp;
     <Link to={`/todo`}>Add Todo...</Link>
   </div>
 );

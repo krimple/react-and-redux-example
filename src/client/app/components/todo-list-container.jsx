@@ -30,8 +30,6 @@ class TodoListContainer extends React.Component {
     }
     return (
      <div>
-      <input type="text" ref="newText"/>
-      <button onClick={this.saveTodo.bind(this)}>Add...</button>
        <table className={classes}>
          <thead>
          <tr>
